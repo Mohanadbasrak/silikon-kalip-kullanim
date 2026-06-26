@@ -1,1 +1,736 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Silikon Kalıp Kullanım Rehberi – Cage Art Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --orange: #E8531A;
+      --orange-light: #F4784A;
+      --graphite: #1A1A1A;
+      --bone: #F5F0E8;
+      --warm-gray: #EEEBE4;
+      --mid-gray: #9A9490;
+      --text: #2C2926;
+      --divider: #D8D3CB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bone);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--graphite);
+      padding: 72px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: var(--orange);
+      opacity: .08;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .hero p {
+      color: var(--mid-gray);
+      font-size: 1rem;
+      max-width: 540px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* ── NAV TABS ── */
+    .tab-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--divider);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .tab-nav a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: color .2s, border-color .2s;
+    }
+    .tab-nav a:hover { color: var(--text); }
+    .tab-nav a.active { color: var(--orange); border-bottom-color: var(--orange); }
+    .tab-nav svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── WRAPPER ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── SECTION ── */
+    .section {
+      padding: 64px 0;
+    }
+    .section + .section {
+      border-top: 1px solid var(--divider);
+    }
+    .section-header {
+      margin-bottom: 44px;
+    }
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--graphite);
+      line-height: 1.2;
+    }
+    .section-header p {
+      margin-top: 12px;
+      color: #6B6560;
+      font-size: .95rem;
+      max-width: 600px;
+    }
+
+    /* ── STEP CARDS (Temizlik) ── */
+    .steps { display: flex; flex-direction: column; gap: 48px; }
+
+    .step {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .step:nth-child(even) .step-img { order: 2; }
+    .step:nth-child(even) .step-text { order: 1; }
+
+    .step-img {
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--warm-gray);
+    }
+    .step-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .step-img:hover img { transform: scale(1.03); }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1;
+      opacity: .25;
+      margin-bottom: -8px;
+    }
+    .step-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--graphite);
+      margin-bottom: 12px;
+    }
+    .step-text p {
+      font-size: .93rem;
+      color: #5C5752;
+      line-height: 1.7;
+    }
+
+    /* ── TIPS GRID (Kullanım / Saklama) ── */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .tip-card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 24px 22px;
+      border: 1px solid var(--divider);
+      position: relative;
+    }
+    .tip-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--orange);
+      border-radius: 6px 0 0 6px;
+    }
+    .tip-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--graphite);
+      margin-bottom: 8px;
+    }
+    .tip-card p {
+      font-size: .875rem;
+      color: #6B6560;
+      line-height: 1.65;
+    }
+    .tip-icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ── WARNING CARD ── */
+    .warning-card {
+      background: #fff8f5;
+      border: 1.5px solid #F4C4B0;
+      border-radius: 6px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-top: 24px;
+    }
+    .warning-card .icon { font-size: 1.5rem; flex-shrink: 0; }
+    .warning-card h4 { font-size: .9rem; font-weight: 600; color: #B84010; margin-bottom: 4px; }
+    .warning-card p { font-size: .85rem; color: #7A4030; line-height: 1.6; }
+
+    /* ── CALCULATOR ── */
+    .calc-box {
+      background: var(--graphite);
+      border-radius: 8px;
+      padding: 36px 40px;
+      color: #fff;
+    }
+    .calc-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .calc-box p { color: var(--mid-gray); font-size: .9rem; margin-bottom: 24px; }
+
+    .calc-steps {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .calc-step-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .85rem;
+      color: var(--mid-gray);
+    }
+    .calc-step-badge span.n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .calc-input-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .calc-input-row label { display: block; font-size: .8rem; color: var(--mid-gray); margin-bottom: 6px; font-weight: 500; }
+    .calc-input-row input {
+      background: #2D2D2D;
+      border: 1.5px solid #444;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 1rem;
+      padding: 10px 14px;
+      width: 180px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .calc-input-row input:focus { border-color: var(--orange); }
+    .calc-input-row input::placeholder { color: #555; }
+
+    .calc-result {
+      background: #2D2D2D;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: var(--mid-gray);
+      white-space: nowrap;
+    }
+    .calc-result strong { color: var(--orange); font-size: 1.15rem; }
+
+    /* ── MATERIALS ── */
+    .material-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid var(--divider);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: .85rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+
+    /* ── CONTACT ── */
+    .contact-bar {
+      background: var(--orange);
+      border-radius: 6px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .contact-bar p { color: rgba(255,255,255,.85); font-size: .9rem; }
+    .contact-bar strong { display: block; color: #fff; font-size: 1.05rem; font-family: 'Playfair Display', serif; margin-bottom: 4px; }
+    .contact-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .contact-links a {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: .875rem;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    .contact-links a:hover { background: rgba(255,255,255,.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--divider);
+      font-size: .8rem;
+      color: var(--mid-gray);
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .step {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .step:nth-child(even) .step-img,
+      .step:nth-child(even) .step-text { order: unset; }
+      .calc-box { padding: 24px 20px; }
+      .calc-input-row input { width: 100%; }
+      .contact-bar { flex-direction: column; }
+      .tab-nav a { padding: 14px 16px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <span class="hero-eyebrow">Cage Art Studio · Rehber</span>
+  <h1>Silikon Kalıp<br>Kullanım Rehberi</h1>
+  <p>Kalıplarınızı doğru kullanın, temizleyin ve saklayın; her döküm mükemmel çıksın.</p>
+</header>
+
+<!-- NAV -->
+<nav class="tab-nav" id="tab-nav">
+  <a href="#kullanim" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    Nasıl Kullanılır
+  </a>
+  <a href="#temizlik">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    Temizlik
+  </a>
+  <a href="#saklama">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Saklama
+  </a>
+  <a href="#hesaplama">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="11" y2="14"/></svg>
+    Hesaplama
+  </a>
+</nav>
+
+<!-- ─── KULLANIM ─── -->
+<section class="section" id="kullanim">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">01 — Kullanım</p>
+      <h2>Kalıbınızı Doğru Kullanın</h2>
+      <p>İlk kullanımdan önceki hazırlık adımları kalıp ömrünü ve döküm kalitesini doğrudan etkiler.</p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">🧵</span>
+        <h4>Fitil Deliği Açma</h4>
+        <p>Mum kalıbında fitil deliği açmak için kalın bir iğne veya ince ahşap şiş kullanın. Yavaş ve kararlı bir hareketle ilerleyin, kalıba zarar vermemek için ani kuvvet uygulamayın.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🔒</span>
+        <h4>Kesik Kalıpların Sabitlenmesi</h4>
+        <p>Yan veya arka kısımdan kesik gelen kalıpları kullanmadan önce para lastiği veya koli bandıyla sabitleyin. Sabitleme yapılmazsa döküm sırasında malzeme dışarı akabilir.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🔪</span>
+        <h4>Kesik Olmayan Kalıplar</h4>
+        <p>Demoulding zorsa kalıbın yan veya arka kısmına maket bıçağıyla küçük bir kesik atabilirsiniz. Bu, çıkarma sürecini önemli ölçüde kolaylaştırır.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🧪</span>
+        <h4>Malzeme Seçimi</h4>
+        <p>Markası bilinmeyen beton harçlar veya parafinler kalıba zarar verebilir. Yeni bir malzemeyi ilk kez önce tek bir kalıpta denemenizi öneririz.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">⏱️</span>
+        <h4>Döküm Sonrası Bekleme</h4>
+        <p>Beton veya mum döktükten sonra kalıbı uzun süre bekletmeyiniz. "Ertesi gün sökerim" düşüncesi silikon yapısını bozarak kalıp ömrünü kısaltabilir.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">✅</span>
+        <h4>Uyumlu Malzemeler</h4>
+        <p>Kalıplarımız beton, mum, epoksi reçine, Jesmonite ve sabun dökümleri için uygundur. Gıda kullanımı için tasarlanmamıştır.</p>
+      </div>
+    </div>
+
+    <div class="material-chips" style="margin-top: 28px;">
+      <span style="font-size:.85rem; color:var(--mid-gray); font-weight:500; align-self:center;">Uyumlu Malzemeler:</span>
+      <span class="chip"><span class="dot"></span> Beton / Jesmonite</span>
+      <span class="chip"><span class="dot"></span> Soya Wax / Parafin</span>
+      <span class="chip"><span class="dot"></span> Epoksi Reçine</span>
+      <span class="chip"><span class="dot"></span> Sabun</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TEMİZLİK ─── -->
+<section class="section" id="temizlik">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">02 — Temizlik</p>
+      <h2>Adım Adım Temizlik Rehberi</h2>
+      <p>Temiz kalıplar her zaman daha iyi sonuç verir. Bu altı adımı uygulayarak kalıplarınızı uzun yıllar boyunca mükemmel durumda tutun.</p>
+    </div>
+
+    <div class="steps">
+
+      <!-- Adım 1 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6705_1024x1024.jpg"
+            alt="Kalıp ön temizlik - kağıt havluyla silme"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">01</div>
+          <h3>Ön Hazırlık</h3>
+          <p>Yıkamaya başlamadan önce kalıbı kağıt havluyla silip önceki döküm kalıntılarını temizleyin. Bu ilk adım, asıl yıkama işlemini çok daha etkili hale getirir ve birikmiş artıkların suyun içinde çözülmesini kolaylaştırır.</p>
+        </div>
+      </div>
+
+      <!-- Adım 2 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6714_1024x1024.jpg"
+            alt="Sıcak su ve deterjanla ıslatma"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">02</div>
+          <h3>Sıcak Su ile Yıkama</h3>
+          <p>Musluk suyu ve az miktarda bulaşık deterjanıyla kalıbı yıkayın. İnatçı artıklar için kalıbı sabunlu suda <strong>en az 30 dakika</strong> bekletin; bu süre kalıntıların yumuşayıp çözülmesini sağlar.</p>
+        </div>
+      </div>
+
+      <!-- Adım 3 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6715_1024x1024.jpg"
+            alt="Bulaşık makinesi seçeneği"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">03</div>
+          <h3>Bulaşık Makinesi</h3>
+          <p>Tercih ederseniz bulaşık makinesini de kullanabilirsiniz — ancak Cage Art Studio kalıplarını <strong>bulaşık makinesine koymayınız</strong>. Makine sıcaklıkları ve güçlü deterjanlar platin katalizörlü silikon yapısına zarar verebilir.</p>
+        </div>
+      </div>
+
+      <!-- Adım 4 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6718_1024x1024.jpg"
+            alt="Yumuşak süngerle ovma"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">04</div>
+          <h3>Nazik Ovma</h3>
+          <p>Yumuşak sünger veya bez kullanarak kalıbı nazikçe ovalayın. Sert fırça, metal ped veya aşındırıcı malzeme kesinlikle kullanmayın — bunlar silikon yüzeyde mikro çizikler bırakarak kalıbın yapışmaz özelliğini bozar.</p>
+        </div>
+      </div>
+
+      <!-- Adım 5 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6721_1024x1024.jpg"
+            alt="Bol suyla durulama"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">05</div>
+          <h3>İyice Durulama</h3>
+          <p>Kalıbı bol soğuk suyla iyice durulayın; yüzeyde deterjan izi kalmamasına dikkat edin. Deterjan kalıntısı bir sonraki dökümde ürün yüzeyinde iz bırakabilir.</p>
+        </div>
+      </div>
+
+      <!-- Adım 6 -->
+      <div class="step">
+        <div class="step-img">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0608/7321/2146/files/4U4A6726_1024x1024.jpg"
+            alt="Kurutma ve saklama"
+            loading="lazy"
+            onerror="this.parentElement.style.background='#E8E4DC'; this.style.display='none';"
+          />
+        </div>
+        <div class="step-text">
+          <div class="step-num">06</div>
+          <h3>Kurutma</h3>
+          <p>Kalıbı yıkadıktan sonra kağıt havlu veya temiz bir bezle nazikçe kurulayın. Ters çevirip uzun süre bırakmaktan veya doğrudan güneş ışığına maruz bırakmaktan kaçının; bu nem sorunlarına ve şekil bozukluğuna yol açabilir.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Kimyasal Uyarısı -->
+    <div class="warning-card" style="margin-top: 48px;">
+      <span class="icon">⚠️</span>
+      <div>
+        <h4>Kimyasal Kullanımına Dikkat</h4>
+        <p>Çözücü, solvent veya benzeri kimyasallar kullanmayınız. Kalıplarımız platin katalizörlü silikonden üretilmiştir ve bu tür kimyasallara karşı hassastır. Gerektiğinde yalnızca ıslak mendil veya yumuşak, nemli bez yeterlidir.</p>
+      </div>
+    </div>
+
+    <!-- Plastik Aparat Uyarısı -->
+    <div class="warning-card" style="margin-top: 12px;">
+      <span class="icon">🧩</span>
+      <div>
+        <h4>Plastik Aparatlar (Maçalar) Hakkında</h4>
+        <p>Silikon kalıpların yanında gönderilen plastik aparatlar (maçalar) aşırı sıcağa dayanıklı değildir. Sıcak suyla yıkamayın ve doğrudan güneş ışığına maruz bırakmayın.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SAKLAMA ─── -->
+<section class="section" id="saklama">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">03 — Saklama</p>
+      <h2>Kalıplarınızı Doğru Saklayın</h2>
+      <p>Doğru saklama, kalıp ömrünü ikiye katlayabilir. Yanlış bir alışkanlık yıllarca çalışacak kalıbı birkaç ayda mahvedebilir.</p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">📐</span>
+        <h4>Düz Zemine Koyun</h4>
+        <p>Kurulama işlemi tamamlandıktan sonra kalıbı doğal formunu koruyacak şekilde düz bir yüzeyde saklayın. Şeklini bozabilecek konumlara yatırmayın.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📦</span>
+        <h4>Sıkıştırmayın</h4>
+        <p>Kalıpları poşetlere sıkıştırarak kutuya koymayın veya araba bagajı gibi ağır yüklerin altında bırakmayın. Basıncın altında kalan kalıplar kalıcı şekil bozukluğuna uğrar.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🗂️</span>
+        <h4>Üst Üste Koymaktan Kaçının</h4>
+        <p>Kalıpları üst üste istiflemek ezilmelerine ve bükülmelerine neden olur. Ürünlerinizin formunu bozmamak için kalıpları yan yana düzenli raflara yerleştirin.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🌡️</span>
+        <h4>Serin ve Kuru Ortam</h4>
+        <p>Kalıpları serin ve kuru bir ortamda saklayın. Doğrudan güneş ışığına, aşırı soğuk veya sıcak mekânlara maruz bırakmayın; uç sıcaklıklar silikonun deformasyonuna neden olabilir.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">☀️</span>
+        <h4>Güneşten Uzak Tutun</h4>
+        <p>Uzun süreli güneş maruziyeti silikon yüzeyin sararmasına ve esnekliğini yitirmesine yol açar. Saklama alanınızın doğrudan ışık almadığından emin olun.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🏷️</span>
+        <h4>Düzenli Raf Sistemi</h4>
+        <p>Verimli kullanım için kalıplarınızı düzenli bir şekilde, boyutlarına göre gruplayarak raflara yerleştirin. Bu hem kalıpları korur hem de çalışma sürecinizi hızlandırır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HESAPLAMA ─── -->
+<section class="section" id="hesaplama">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">04 — Hesaplama</p>
+      <h2>Mum Miktarı Hesaplayıcı</h2>
+      <p>Kalıbınızın alacağı yaklaşık mum miktarını su tartma yöntemiyle hesaplayın.</p>
+    </div>
+
+    <div class="calc-box">
+      <h3>Kalıp Hacmi → Mum Miktarı</h3>
+      <p>Su ile wax yoğunlukları farklı olduğu için 1:0.9 oranını kullanıyoruz.</p>
+
+      <div class="calc-steps">
+        <div class="calc-step-badge"><span class="n">1</span> Kalıbı teraziye koyun, sıfırlayın</div>
+        <div class="calc-step-badge"><span class="n">2</span> İçini suyla doldurun</div>
+        <div class="calc-step-badge"><span class="n">3</span> Su ağırlığını aşağıya yazın</div>
+      </div>
+
+      <div class="calc-input-row">
+        <div>
+          <label>Su Miktarı (gram / ml)</label>
+          <input type="number" id="water-input" placeholder="örn. 350" min="0" />
+        </div>
+        <div class="calc-result">
+          Yaklaşık Mum: <strong id="wax-result">— gr</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── İLETİŞİM ─── -->
+<section class="section" style="padding-bottom: 24px;" id="iletisim">
+  <div class="container">
+    <div class="contact-bar">
+      <div>
+        <strong>Sorunuz mu var?</strong>
+        <p>Kalıplarınız veya ürünlerimiz hakkında her konuda yanınızdayız.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:hello@cagearts.com">✉ hello@cagearts.com</a>
+        <a href="tel:+905389577885">📞 +90 538 957 78 85</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 <a href="https://cagearts.com">Cage Art Studio</a> · Tüm hakları saklıdır.</p>
+</footer>
+
+<script>
+  // Hesaplayıcı
+  document.getElementById('water-input').addEventListener('input', function() {
+    const val = parseFloat(this.value);
+    const result = document.getElementById('wax-result');
+    if (!isNaN(val) && val > 0) {
+      result.textContent = Math.round(val * 0.9) + ' gr';
+    } else {
+      result.textContent = '— gr';
+    }
+  });
+
+  // Tab nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.tab-nav a');
+
+  function setActive() {
+    let current = '';
+    sections.forEach(sec => {
+      const top = sec.getBoundingClientRect().top;
+      if (top <= 80) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+    // fallback to first if nothing
+    if (!current) navLinks[0].classList.add('active');
+  }
+
+  window.addEventListener('scroll', setActive, { passive: true });
+</script>
+
+</body>
+</html>
