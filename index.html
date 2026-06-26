@@ -120,7 +120,7 @@
     .acc-body {
       overflow: hidden;
       max-height: 0;
-      transition: max-height .4s ease;
+      transition: max-height .35s ease;
     }
     .acc-inner { padding: 0 0 40px 52px; }
 
@@ -403,7 +403,7 @@
   <div class="accordion">
 
     <!-- ── 01 KULLANIM ── -->
-    <div class="acc-item open" id="sec-kullanim">
+    <div class="acc-item" id="sec-kullanim">
       <button class="acc-trigger" onclick="toggle('sec-kullanim')">
         <span class="acc-num">01</span>
         <span class="acc-title">Nasıl Kullanılır</span>
@@ -663,38 +663,51 @@
 </footer>
 
 <script>
-  function toggle(id) {
-    const item = document.getElementById(id);
-    const body = item.querySelector('.acc-body');
-    const isOpen = item.classList.contains('open');
+  // Tüm accordion öğeleri
+  var items = document.querySelectorAll('.acc-item');
 
-    if (isOpen) {
-      body.style.maxHeight = body.scrollHeight + 'px';
-      requestAnimationFrame(() => {
-        body.style.maxHeight = '0';
-      });
-      item.classList.remove('open');
-    } else {
-      body.style.maxHeight = body.scrollHeight + 'px';
-      item.classList.add('open');
-      // Animasyon bittikten sonra max-height'i kaldır (içerik değişimine karşı)
-      body.addEventListener('transitionend', function onEnd() {
-        if (item.classList.contains('open')) body.style.maxHeight = 'none';
-        body.removeEventListener('transitionend', onEnd);
-      });
+  function openItem(item) {
+    var body = item.querySelector('.acc-body');
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    body.addEventListener('transitionend', function onEnd() {
+      if (item.classList.contains('open')) body.style.maxHeight = 'none';
+      body.removeEventListener('transitionend', onEnd);
+    });
+  }
+
+  function closeItem(item) {
+    var body = item.querySelector('.acc-body');
+    // maxHeight'i scrollHeight'a set et, sonra 0'a düşür (animasyon için)
+    body.style.maxHeight = body.scrollHeight + 'px';
+    requestAnimationFrame(function() {
+      body.style.maxHeight = '0';
+    });
+    item.classList.remove('open');
+  }
+
+  function toggle(id) {
+    var item = document.getElementById(id);
+    var isOpen = item.classList.contains('open');
+
+    // Önce tüm açık olanları kapat
+    items.forEach(function(i) {
+      if (i.classList.contains('open')) closeItem(i);
+    });
+
+    // Tıklanan kapalıysa aç
+    if (!isOpen) {
+      openItem(item);
     }
   }
 
-  // İlk açık bölümü başlat
-  document.querySelectorAll('.acc-item.open').forEach(function(item) {
-    const body = item.querySelector('.acc-body');
-    body.style.maxHeight = 'none';
-  });
+  // Sayfa yüklenince ilk bölümü aç
+  openItem(document.getElementById('sec-kullanim'));
 
   // Hesaplayıcı
   document.getElementById('water-input').addEventListener('input', function () {
-    const val = parseFloat(this.value);
-    const el = document.getElementById('wax-result');
+    var val = parseFloat(this.value);
+    var el = document.getElementById('wax-result');
     el.textContent = (!isNaN(val) && val > 0) ? Math.round(val * 0.82) + ' gr' : '— gr';
   });
 </script>
