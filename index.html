@@ -353,6 +353,59 @@
     }
     .contact-links a:hover { background: var(--orange); border-color: var(--orange); }
 
+    /* ── CONCRETE RESULT CARDS ── */
+    .concrete-results { margin-top: 4px; }
+    .concrete-result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .concrete-result-card {
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .concrete-result-card--orange {
+      background: #FFF4EF;
+      border-color: #F4C4A8;
+    }
+    .concrete-result-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--gray-mid);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+    .concrete-result-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .concrete-result-card--orange .concrete-result-value { color: var(--orange); }
+    .concrete-result-sub {
+      font-size: .75rem;
+      color: var(--gray-light);
+    }
+    .concrete-note {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--bg-soft);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+      padding: 12px 16px;
+      font-size: .82rem;
+      color: var(--gray-dark);
+      line-height: 1.65;
+    }
+
     /* ── FOOTER ── */
     footer {
       text-align: center;
@@ -378,6 +431,7 @@
       .step:nth-child(even) .step-img,
       .step:nth-child(even) .step-text { order: unset; }
       .calc-field input { width: 100%; }
+      .concrete-result-grid { grid-template-columns: 1fr; }
       .contact-bar { flex-direction: column; }
     }
   </style>
@@ -630,6 +684,51 @@
         </div>
       </div>
 
+      <hr class="panel-separator" />
+
+      <!-- BETON HESAPLAMA -->
+      <div class="sec-block">
+        <div class="sec-divider">
+          <span class="sec-divider-num">05</span>
+          <span class="sec-divider-title">Beton Miktarı Hesaplayıcı</span>
+          <div class="sec-divider-line"></div>
+        </div>
+        <p class="sec-intro">Kalıbınız için gereken beton tozu ve karışım suyu miktarını hesaplayın. Önce kalıbı suyla doldurup su ağırlığını ölçün.</p>
+        <div class="calc-box">
+          <h3>Kalıp Hacmi → Beton Karışımı</h3>
+          <p>Sonuçlar yaklaşık değerlerdir. Kullandığınız beton markasına ve kalıp formuna göre küçük farklılıklar olabilir.</p>
+          <div class="calc-badges">
+            <div class="calc-badge"><span class="n">1</span> Kalıbı teraziye koyun, sıfırlayın</div>
+            <div class="calc-badge"><span class="n">2</span> İçini suyla doldurun</div>
+            <div class="calc-badge"><span class="n">3</span> Su ağırlığını aşağıya yazın</div>
+          </div>
+          <div class="calc-row" style="margin-bottom: 20px;">
+            <div class="calc-field">
+              <label>Su Miktarı (gram / ml)</label>
+              <input type="number" id="concrete-water-input" placeholder="örn. 350" min="0" />
+            </div>
+          </div>
+          <div class="concrete-results" id="concrete-results" style="display:none;">
+            <div class="concrete-result-grid">
+              <div class="concrete-result-card">
+                <div class="concrete-result-label">Beton Tozu (Harç)</div>
+                <div class="concrete-result-value" id="concrete-powder">— gr</div>
+                <div class="concrete-result-sub"></div>
+              </div>
+              <div class="concrete-result-card concrete-result-card--orange">
+                <div class="concrete-result-label">Karışım Suyu</div>
+                <div class="concrete-result-value" id="concrete-mix-water">— gr</div>
+                <div class="concrete-result-sub"></div>
+              </div>
+            </div>
+            <div class="concrete-note">
+              <span>💡</span>
+              <span>Suyu beton tozuna yavaşça ekleyin ve pürüzsüz bir kıvama gelene kadar karıştırın. Hava kabarcığı oluşmaması için kalıbı yavaşça doldurun.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -665,6 +764,20 @@
     var val = parseFloat(this.value);
     var el = document.getElementById('wax-result');
     el.textContent = (!isNaN(val) && val > 0) ? Math.round(val * 0.82) + ' gr' : '— gr';
+  });
+
+  document.getElementById('concrete-water-input').addEventListener('input', function () {
+    var val = parseFloat(this.value);
+    var results = document.getElementById('concrete-results');
+    if (!isNaN(val) && val > 0) {
+      var powder = Math.round(val * 1.6);
+      var mixWater = Math.round(val * 1.6 * 0.28);
+      document.getElementById('concrete-powder').textContent = powder + ' gr';
+      document.getElementById('concrete-mix-water').textContent = mixWater + ' gr';
+      results.style.display = 'block';
+    } else {
+      results.style.display = 'none';
+    }
   });
 </script>
 
